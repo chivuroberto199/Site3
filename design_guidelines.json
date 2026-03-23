@@ -1,0 +1,124 @@
+{
+  "project_name": "Backtracking & Divide et Impera Educational Platform",
+  "theme": "dark",
+  "language": "Romanian",
+  "authors": ["Chivu Roberto Alexandru", "Iorga Alexandru Cristian"],
+  "typography": {
+    "headings": {
+      "family": "Outfit",
+      "weights": ["400", "700", "900"],
+      "usage_rules": "Use tracking-tight for all headings > 32px. No generic sans-serifs for headings."
+    },
+    "body": {
+      "family": "IBM Plex Sans",
+      "weights": ["400", "500"],
+      "usage_rules": "Use leading-relaxed. Minimalist and technical readability."
+    },
+    "code": {
+      "family": "JetBrains Mono",
+      "weights": ["400", "600"],
+      "usage_rules": "Use for all C++ code blocks, arrays, math formulas, and interactive inputs."
+    }
+  },
+  "colors": {
+    "background": {
+      "base": "#020617",
+      "surface": "#0f172a",
+      "elevated": "#1e293b",
+      "grid_lines": "#334155"
+    },
+    "text": {
+      "primary": "#f8fafc",
+      "secondary": "#94a3b8",
+      "muted": "#64748b"
+    },
+    "accents": {
+      "primary_divide": "#06b6d4",
+      "primary_backtrack": "#f43f5e",
+      "success_node": "#10b981",
+      "warning": "#eab308"
+    },
+    "rules": "Avoid pure black (#000000). Use slate-tinted darks. Ensure APCA contrast compliance. All interactive states must have a clear hover/focus color shift."
+  },
+  "visual_enhancers": {
+    "textures": "Use an SVG noise overlay (opacity 0.03) globally to kill digital flatness and add a premium matte feel.",
+    "glassmorphism": "For sticky top navigation menu: bg-slate-950/70, backdrop-blur-xl, border-b border-slate-800.",
+    "retro_futurism": "Code blocks must look like IDE/Terminal windows. Add fake macOS window controls (red/yellow/green dots) in the top-left of code blocks.",
+    "tracing_beam": "Use a vertical glowing line or a highlighted background row for the 'currently executing line' in step-by-step C++ animations."
+  },
+  "grids": {
+    "bento_mode": "Use 'Tetris' bento layout for the Home Intro page to display features and authors. grid-cols-1 md:grid-cols-12 gap-6.",
+    "comparison_table": "Use 'Grid Borders' style for the Comparație page. border-collapse with border-b border-r border-slate-800. No rounded edges for the internal grid.",
+    "spacing": "Generous spacing. p-8, p-12 for containers. gap-8 for flex/grid layouts."
+  },
+  "layouts": {
+    "navigation": "Sticky top navbar. Transparent but blurred. Left: Logo/Title. Right: Navigation Links (Acasă, Backtracking, Divide et Impera, Comparație, Bibliografie).",
+    "hero": "Massive typography (text-6xl+). Left aligned. Asymmetrical. Abstract tech background.",
+    "algorithm_workspace": "Two-column layout on Desktop. Left side: Code block with highlighted lines and explanation text. Right side: Visual Diagram (Array splitting or Tree traversal) taking up sticky height.",
+    "quiz_cards": "Use Neumorphic/Tactile dark cards. 1px solid border-slate-800. On hover, the border glows with the accent color."
+  },
+  "motion": {
+    "page_transitions": "Fade and slight upward slide for page mounts.",
+    "algorithm_steps": "Use framer-motion layout animations. For Divide et Impera: Arrays splitting apart physically. For Backtracking: SVG path drawing or Nodes appearing/disappearing with layoutId.",
+    "micro_interactions": "Buttons: scale down slightly on active (scale-95). Hover states change text color and border color."
+  },
+  "media": {
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1692533801336-fb86a60f501f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdsb3dpbmclMjBnZW9tZXRyeSUyMGRhcmt8ZW58MHx8fHwxNzc0MjUxOTY5fDA&ixlib=rb-4.1.0&q=85",
+        "category": "Hero Background",
+        "description": "Black and green abstract background with curves, used as a subtle background layer with low opacity for the Home page or Divide et Impera header."
+      },
+      {
+        "url": "https://images.pexels.com/photos/6727765/pexels-photo-6727765.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "category": "Algorithm Header",
+        "description": "Modern art installation with geometric neon light shapes, ideal for the Backtracking page header or visual banner."
+      }
+    ],
+    "icons": "Use lucide-react (default). Map, GitBranch, Split, CheckCircle, Code, Play, StepForward, RotateCcw."
+  },
+  "components_to_build": [
+    {
+      "name": "IdeCodeRunner",
+      "description": "A terminal-like window displaying C++ code. Uses react-syntax-highlighter. Needs a prop for 'activeLine' to highlight the currently executing code line."
+    },
+    {
+      "name": "AlgorithmVisualizer",
+      "description": "A framer-motion powered area. For Backtracking: A tree structure where nodes turn green (valid) or red (dead end). For Divide: An array box that physically splits into two smaller boxes over time."
+    },
+    {
+      "name": "InteractiveInputBox",
+      "description": "A form where users can input custom arrays (e.g., '5, 2, 8, 1, 9') or n values for N-Queens. Needs strict validation and glowing border states."
+    },
+    {
+      "name": "QuizCard",
+      "description": "Interactive multiple-choice quiz questions. Shows red/green feedback immediately upon selection."
+    }
+  ],
+  "accessibility": {
+    "contrast": "Ensure text against dark backgrounds passes APCA.",
+    "testing": "Add data-testid to all interactive buttons, inputs, and quiz options.",
+    "keyboard": "Ensure the step-by-step algorithm visualizer can be controlled via keyboard (ArrowRight for step forward)."
+  },
+  "instructions_to_main_agent": [
+    "ALL text, placeholders, headings, explanations, and descriptions MUST be in Romanian language.",
+    "Build a custom Router or use React Router for the 5 pages: Home, Backtracking, Divide et Impera, Comparație, Bibliografie.",
+    "Use framer-motion heavily for the algorithm visualizations. The step-by-step aspect is critical. Use a state variable (e.g., currentStep) and map it to an array of states that define the active code line and visual representation.",
+    "Create realistic C++ code snippets for N-Queens/Permutations (Backtracking) and MergeSort/BinarySearch (Divide et Impera).",
+    "Never use generic centered layouts. Use asymmetrical, high-end technical grids.",
+    "Do not use full transparent backgrounds for the sticky header; apply a backdrop blur and a semi-transparent slate color.",
+    "Inject the Google Fonts 'Outfit', 'IBM Plex Sans', and 'JetBrains Mono' into index.html or layout."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Avoid generic, 'on distribution' AI slop. Create distinctive, technical, and premium frontends.",
+    "Layer design elements. Z-index hierarchy is crucial for dark mode depth.",
+    "Do not apply `transition: all` anywhere, as it breaks framer-motion transforms.",
+    "Do not center-align the app container (`.App { text-align: center; }` is forbidden). Keep text naturally left-aligned for readability.",
+    "Use modern pill-shaped or sharp interactive buttons with proper hover states.",
+    "Never use emojis as icons. Use lucide-react.",
+    "Add micro-animations (hover states, parallax, entrance fades) to everything.",
+    "Use generous spacing (2-3x more than usual) to give the layout breathing room.",
+    "For components, use named exports. For pages, use default exports.",
+    "All interactive elements MUST have a data-testid attribute in kebab-case."
+  ]
+}
