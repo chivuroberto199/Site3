@@ -1,34 +1,180 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* App-specific styles */
+.App {
+  min-height: 100vh;
+  position: relative;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Page transition wrapper */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+@media (min-width: 768px) {
+  .page-container {
+    padding: 0 48px;
+  }
 }
 
-.App-link {
-    color: #61dafb;
+@media (min-width: 1024px) {
+  .page-container {
+    padding: 0 64px;
+  }
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Hero section specific */
+.hero-gradient {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.15), transparent);
+}
+
+/* Algorithm visualizer container */
+.visualizer-container {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(2, 6, 23, 0.8) 100%);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 16px;
+}
+
+/* Interactive input glow effect */
+.input-glow:focus {
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.3), 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+/* Tree node styles for backtracking visualization */
+.tree-node {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.tree-node.active {
+  background-color: var(--accent-divide);
+  transform: scale(1.1);
+}
+
+.tree-node.success {
+  background-color: var(--accent-success);
+}
+
+.tree-node.dead-end {
+  background-color: var(--accent-backtrack);
+}
+
+/* Array element styles for divide et impera */
+.array-element {
+  transition: transform 0.5s ease, background-color 0.3s ease;
+}
+
+.array-element.comparing {
+  background-color: var(--accent-warning);
+}
+
+.array-element.sorted {
+  background-color: var(--accent-success);
+}
+
+.array-element.pivot {
+  background-color: var(--accent-divide);
+}
+
+/* Lesson section styling */
+.lesson-section {
+  border-left: 3px solid var(--accent-divide);
+  padding-left: 24px;
+  margin-bottom: 48px;
+}
+
+.lesson-section.backtrack {
+  border-left-color: var(--accent-backtrack);
+}
+
+/* Navigation link hover effect */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-divide), var(--accent-backtrack));
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-divide) 0%, #0891b2 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--grid-lines);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-divide);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+/* Comparison table styles */
+.comparison-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.comparison-table th,
+.comparison-table td {
+  border: 1px solid var(--grid-lines);
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.comparison-table th {
+  background: var(--bg-elevated);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+.comparison-table tr:hover td {
+  background: rgba(6, 182, 212, 0.05);
+}
+
+/* Step indicator */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.step-indicator .current {
+  color: var(--accent-divide);
+  font-weight: 600;
 }
