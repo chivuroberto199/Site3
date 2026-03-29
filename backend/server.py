@@ -1,5 +1,8 @@
 from fastapi import FastAPI, APIRouter
+from fastapi.staticfiles import StaticFiles # <-- Add this
+from fastapi.responses import FileResponse  # <-- Add this
 from dotenv import load_dotenv
+# ... (rest of your imports stay the same)
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
@@ -83,6 +86,26 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# --- FRONTEND SERVING LOGIC ---
+
+# 1. Tell Python where your React files are saved. 
+# AI tools usually put this in a 'build' or 'dist' folder one level up from the backend.
+FRONTEND_DIR = ROOT_DIR.parent / "build" 
+
+if FRONTEND_DIR.exists():
+    # 2. Serve the React app and handle its internal routing
+    @app.get("/{full_path:path}")
+    async def serve_react_app(full_path: str):
+        # If the browser asks for a specific file (like an image, css, or js file), serve it
+        file_path = FRONTEND_DIR / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(file_path)
+        
+        # Otherwise, serve the main React HTML file and let the frontend take over
+        return FileResponse(FRONTEND_DIR / "index.html")
+else:
+    logger.warning(f"Frontend folder not found at {FRONTEND_DIR}. Check the folder name!")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
