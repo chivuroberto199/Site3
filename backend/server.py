@@ -87,26 +87,23 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- FRONTEND SERVING LOGIC ---
+# Point specifically to the 'build' folder
+frontend_build = Path(__file__).parent.parent / "frontend" / "build"
 
-# 1. Tell Python where your React files are saved. 
-# AI tools usually put this in a 'build' or 'dist' folder one level up from the backend.
-FRONTEND_DIR = ROOT_DIR.parent / "build" 
+if frontend_build.exists():
+    # Serve all the built React files
+    app.mount("/", StaticFiles(directory=str(frontend_build), html=True), name="static")
 
-if FRONTEND_DIR.exists():
-    # 2. Serve the React app and handle its internal routing
+    # Catch-all: If someone goes to a sub-page, send them to index.html
     @app.get("/{full_path:path}")
-    async def serve_react_app(full_path: str):
-        # If the browser asks for a specific file (like an image, css, or js file), serve it
-        file_path = FRONTEND_DIR / full_path
-        if file_path.exists() and file_path.is_file():
+    async def serve_frontend(full_path: str):
+        file_path = frontend_build / full_path
+        if file_path.is_file():
             return FileResponse(file_path)
-        
-        # Otherwise, serve the main React HTML file and let the frontend take over
-        return FileResponse(FRONTEND_DIR / "index.html")
+        return FileResponse(frontend_build / "index.html")
 else:
-    logger.warning(f"Frontend folder not found at {FRONTEND_DIR}. Check the folder name!")
-
+    logger.warning(f"Frontend build folder not found at {frontend_build}")
+    
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
