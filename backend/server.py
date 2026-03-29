@@ -86,24 +86,28 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+# --- FRONTEND SERVING LOGIC ---
 
-# Point specifically to the 'build' folder
-frontend_build = Path(__file__).parent.parent / "frontend" / "build"
+# ROOT_DIR is your 'backend' folder. 
+# .parent takes us to the main project folder.
+# Then we go into 'frontend', and finally into 'build'.
+FRONTEND_DIR = ROOT_DIR.parent / "frontend" / "build"
 
-if frontend_build.exists():
-    # Serve all the built React files
-    app.mount("/", StaticFiles(directory=str(frontend_build), html=True), name="static")
-
-    # Catch-all: If someone goes to a sub-page, send them to index.html
+if FRONTEND_DIR.exists():
+    # Catch-all route to serve the React app
     @app.get("/{full_path:path}")
-    async def serve_frontend(full_path: str):
-        file_path = frontend_build / full_path
-        if file_path.is_file():
+    async def serve_react_app(full_path: str):
+        file_path = FRONTEND_DIR / full_path
+        
+        # If the browser asks for a specific file (like CSS, JS, or images), serve it
+        if file_path.exists() and file_path.is_file():
             return FileResponse(file_path)
-        return FileResponse(frontend_build / "index.html")
+        
+        # For everything else, serve the React index.html and let React handle the routing
+        return FileResponse(FRONTEND_DIR / "index.html")
 else:
-    logger.warning(f"Frontend build folder not found at {frontend_build}")
-    
+    logger.warning(f"Frontend folder not found at {FRONTEND_DIR}. Check the path!")
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
